@@ -1,0 +1,67 @@
+.container {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0px 100px;
+    min-height: 100px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table thead {
+    border-bottom: 2px solid white;
+    margin-bottom: 10px;
+}
+
+.table th {
+    font-size: 1rem;
+    text-align: left;
+    padding: 15px 0.1rem;
+}
+
+.table tbody tr {
+    height: 80px;
+    border-bottom: 1px solid #383e4a;
+    font-weight: 550;
+    font-size: 0.9rem;
+}
+
+.symbol {
+    display: flex;
+    align-items: center;
+    cursor:pointer;
+}
+
+.symbol img {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}
+
+.symbol span {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.482);
+}
+
+.success {
+    color: aquamarine;
+}
+
+.error {
+    color: brown;
+}
+
+@media (max-width: 600px) {
+    .table{
+        display: block;
+        overflow-x: scroll;
+    }
+
+    .table td,
+    .table th {
+        padding: 0 10px;
+    }
+}
