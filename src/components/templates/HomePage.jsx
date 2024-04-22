@@ -23,8 +23,8 @@ function HomePage() {
 
   return (
     <div>
-        <Pagination page={page} setPage={setPage} />
         <TableCoin coins={coins} isLoading={isLoading} />
+        <Pagination page={page} setPage={setPage} />
     </div>
   )
 }

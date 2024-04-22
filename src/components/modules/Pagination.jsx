@@ -1,5 +1,6 @@
 import PropTypes from "prop-types"
 
+import styles from "./pagination.module.css"
 
 function Pagination({page, setPage}) {
 
@@ -13,22 +14,36 @@ function Pagination({page, setPage}) {
         setPage( (page) => page + 1)
     }
   return (
-    <div>
-        <button onClick={previousHandler}>previous</button>
-        <p style={{ color: page === 1 ? "red" : "inherit"}}>1</p>
-        <p style={{ color: page === 2 ? "red" : "inherit"}}>2</p>
+    <div className={styles.pagination}>
+        <button
+            onClick={previousHandler}
+            className={page === 1 ? styles.disabled : null}
+            >
+                previous
+        </button>
+
+        <p className={page === 1 ? styles.selected : null}>1</p>
+        <p className={page === 2 ? styles.selected : null}>2</p>
+
         {
             page > 2 && page < 9 && (
                 <>
                 <span>...</span>
-                <p style={{ color: page === page ? "red" : "inherit"}}>{page}</p>
+                <p className={styles.selected}>{page}</p>
                 </>
             )
         }
+
         <span>...</span>
-        <p style={{ color: page === 9 ? "red" : "inherit"}}>9</p>
-        <p style={{ color: page === 10 ? "red" : "inherit"}}>10</p>
-        <button onClick={nextHandler}>next</button>
+        <p className={page === 9 ? styles.selected : null}>9</p>
+        <p className={page === 10 ? styles.selected : null}>10</p>
+
+        <button
+            onClick={nextHandler}
+            className={page === 10 ? styles.disabled : null}
+            >
+                next
+        </button>
     </div>
   )
 }
