@@ -7,7 +7,8 @@ import chartDown from "../../assets/chart-down.svg"
 
 import styles from "../modules/TableCoin.module.css"
 
-function TableCoin({coins, isLoading}) {
+
+function TableCoin({coins, isLoading, sign}) {
     console.log(coins)
   return (
     <div className={styles.container}>
@@ -25,7 +26,7 @@ function TableCoin({coins, isLoading}) {
         </thead>
         <tbody>
             {coins.map( (coin) => (
-                <TableRow coin={coin} key={coin.id} />
+                <TableRow coin={coin} key={coin.id} sign={sign} />
             ))}
         </tbody>
     </table>
@@ -36,7 +37,9 @@ function TableCoin({coins, isLoading}) {
 
 TableCoin.propTypes = {
   coins: PropTypes.array.isRequired,
-  isLoading: PropTypes.any
+  isLoading: PropTypes.any,
+  setSign: PropTypes.any,
+  sign: PropTypes.any
 }
 
 export default TableCoin
@@ -54,7 +57,9 @@ const TableRow = ({
         current_price,
         price_change_percentage_24h : price_change
         }
+    , sign
     }) => {
+
     return (
         <tr>
                         <td>
@@ -64,7 +69,7 @@ const TableRow = ({
                             </div>
                         </td>
                         <td>{name}</td>
-                        <td>${current_price.toLocaleString()}</td>
+                        <td>{sign} {current_price.toLocaleString()}</td>
                         <td className={price_change > 0 ? styles.success : styles.error} >
                             {price_change.toFixed(2)}%
                         </td>
@@ -88,5 +93,6 @@ TableRow.propTypes = {
     total_volume: PropTypes.shape({
       toLocaleString: PropTypes.func
     })
-  })
+  }),
+  sign: PropTypes.any
 }
