@@ -6,6 +6,8 @@ import { FidgetSpinner } from "react-loader-spinner";
 
 import { searchCoin } from "../../services/cryptoApi";
 
+import styles from "./search.module.css"
+
 function Search({ currency, setCurrency, setSign}) {
     const [text, setText] = useState("");
     const [coins, setCoins] = useState([]);
@@ -57,7 +59,7 @@ function Search({ currency, setCurrency, setSign}) {
     },[text])
 
   return (
-    <div>
+    <div className={styles.searchBox}>
         <input
             type="text"
             placeholder="Search"
@@ -79,7 +81,8 @@ function Search({ currency, setCurrency, setSign}) {
             <option value="cad">CAD (Canada)</option>
             <option value="aud">AUD (Australia)</option>
         </select>
-        <div>
+        {(!!coins.length || isLoading) && (
+            <div className={styles.searchResult}>
             {isLoading ? <FidgetSpinner
                             width="50px"
                             height="50px"
@@ -94,6 +97,7 @@ function Search({ currency, setCurrency, setSign}) {
                 ))}
             </ul>
         </div>
+        )}
     </div>
   )
 }
