@@ -1,6 +1,15 @@
-
 import PropTypes from "prop-types"
+import { useEffect } from "react";
+import { useState } from "react";
+
+import { FidgetSpinner } from "react-loader-spinner";
+
+import { searchCoin } from "../../services/cryptoApi";
+
 function Search({ currency, setCurrency, setSign}) {
+    const [text, setText] = useState("");
+    const [coins, setCoins] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const signHandler = (event) => {
         setCurrency(event.target.value);
@@ -16,9 +25,44 @@ function Search({ currency, setCurrency, setSign}) {
         if (event.target.value == "aud") {setSign("$")}
     }
 
+    useEffect( () =>{
+        const controller = new AbortController();
+
+        setCoins([])
+        if (!text) {
+            setIsLoading(false);
+            return
+        }
+        const search = async () => {
+            try {
+                const res = await fetch(searchCoin(text), {signal: controller.signal});
+                const json = await res.json();
+                console.log(json)
+                if (json.coins){
+                    setCoins(json.coins);
+                    setIsLoading(false);
+                }else{
+                    alert(json.status.error_message)
+                }
+            }catch (error) {
+                if (error.name !== "AbortError"){
+                    alert(error.message);
+                }
+            }
+        };
+
+        setIsLoading(true)
+        search();
+        return () => controller.abort();
+    },[text])
+
   return (
     <div>
-        <input type="text" />
+        <input
+            type="text"
+            placeholder="Search"
+            value={text}
+            onChange={(event => setText(event.target.value))}/>
         <select
             onChange={signHandler}
             value={currency}
@@ -35,6 +79,21 @@ function Search({ currency, setCurrency, setSign}) {
             <option value="cad">CAD (Canada)</option>
             <option value="aud">AUD (Australia)</option>
         </select>
+        <div>
+            {isLoading ? <FidgetSpinner
+                            width="50px"
+                            height="50px"
+                            backgroundColor="#11CBD7"
+                            ballColors={["#C6F1E7", "#F0FFF3", "#FA4659"]} /> : null}
+            <ul>
+                {coins.map(coin => (
+                    <li key={coin.id}>
+                        <img src={coin.thumb} alt={coin.name} />
+                        <p>{coin.name}</p>
+                    </li>
+                ))}
+            </ul>
+        </div>
     </div>
   )
 }

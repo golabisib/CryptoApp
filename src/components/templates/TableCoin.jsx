@@ -12,7 +12,9 @@ function TableCoin({coins, isLoading, sign}) {
     console.log(coins)
   return (
     <div className={styles.container}>
-        {isLoading ? <FidgetSpinner /> :
+        {isLoading ? <FidgetSpinner
+                        backgroundColor="#11CBD7"
+                        ballColors={["#C6F1E7", "#F0FFF3", "#FA4659"]}/> :
         <table className={styles.table}>
         <thead>
             <tr>
