@@ -8,7 +8,7 @@ import chartDown from "../../assets/chart-down.svg"
 import styles from "../modules/TableCoin.module.css"
 
 
-function TableCoin({coins, isLoading, sign}) {
+function TableCoin({coins, isLoading, sign, setChart}) {
     console.log(coins)
   return (
     <div className={styles.container}>
@@ -28,7 +28,7 @@ function TableCoin({coins, isLoading, sign}) {
         </thead>
         <tbody>
             {coins.map( (coin) => (
-                <TableRow coin={coin} key={coin.id} sign={sign} />
+                <TableRow coin={coin} key={coin.id} sign={sign} setChart={setChart} />
             ))}
         </tbody>
     </table>
@@ -40,6 +40,7 @@ function TableCoin({coins, isLoading, sign}) {
 TableCoin.propTypes = {
   coins: PropTypes.array.isRequired,
   isLoading: PropTypes.any,
+  setChart: PropTypes.any,
   setSign: PropTypes.any,
   sign: PropTypes.any
 }
@@ -59,13 +60,18 @@ const TableRow = ({
         current_price,
         price_change_percentage_24h : price_change
         }
-    , sign
+    , sign,
+    setChart
     }) => {
+
+        const showHandler = () => {
+            setChart((chart) => !chart)
+        }
 
     return (
         <tr>
                         <td>
-                            <div className={styles.symbol}>
+                            <div className={styles.symbol} onClick={showHandler}>
                                 <img src={image} alt="Coin Image" />
                                 <span>{symbol.toUpperCase()}</span>
                             </div>
@@ -96,5 +102,6 @@ TableRow.propTypes = {
       toLocaleString: PropTypes.func
     })
   }),
+  setChart: PropTypes.any,
   sign: PropTypes.any
 }

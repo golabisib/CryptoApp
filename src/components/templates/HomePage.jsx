@@ -3,15 +3,17 @@ import { getCoinList } from "../../services/cryptoApi";
 
 import TableCoin from "./TableCoin"
 import Search from "../modules/Search";
-
+import Chart from "../modules/Chart";
 import Pagination from "../modules/Pagination";
+
 
 function HomePage() {
     const [coins, setCoins] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [currency, setCurrency] = useState("USD");
-    const [sign, setSign] = useState("$")
+    const [sign, setSign] = useState("$");
+    const [chart, setChart] = useState(null);
 
 
 
@@ -34,8 +36,9 @@ function HomePage() {
   return (
     <div>
         <Search currency={currency} setCurrency={setCurrency} setSign={setSign} />
-        <TableCoin coins={coins} isLoading={isLoading} sign={sign} />
+        <TableCoin coins={coins} isLoading={isLoading} sign={sign} setChart={setChart} />
         <Pagination page={page} setPage={setPage} />
+        {!!chart && <Chart chart={chart} setChart={setChart} />}
     </div>
   )
 }
