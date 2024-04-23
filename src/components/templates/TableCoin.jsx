@@ -2,6 +2,7 @@ import PropTypes from "prop-types"
 import { FidgetSpinner } from "react-loader-spinner"
 
 
+import { marketChart } from "../../services/cryptoApi"
 import chartUp from "../../assets/chart-up.svg"
 import chartDown from "../../assets/chart-down.svg"
 
@@ -9,7 +10,6 @@ import styles from "../modules/TableCoin.module.css"
 
 
 function TableCoin({coins, isLoading, sign, setChart}) {
-    console.log(coins)
   return (
     <div className={styles.container}>
         {isLoading ? <FidgetSpinner
@@ -53,6 +53,7 @@ export default TableCoin
 
 const TableRow = ({
     coin: {
+        id,
         name,
         image,
         symbol,
@@ -64,8 +65,14 @@ const TableRow = ({
     setChart
     }) => {
 
-        const showHandler = () => {
-            setChart((chart) => !chart)
+        const showHandler = async () => {
+            try {
+                const res = await fetch(marketChart(id));
+                const json = await res.json();
+                setChart(json);
+            } catch (error) {
+                setChart(null);
+            }
         }
 
     return (
@@ -88,20 +95,15 @@ const TableRow = ({
 }
 
 TableRow.propTypes = {
-  coin: PropTypes.shape({
-    current_price: PropTypes.shape({
-      toLocaleString: PropTypes.func
-    }),
-    image: PropTypes.image,
-    name: PropTypes.string,
-    price_change_percentage_24h: PropTypes.number,
-    symbol: PropTypes.shape({
-      toUpperCase: PropTypes.func
-    }),
-    total_volume: PropTypes.shape({
-      toLocaleString: PropTypes.func
-    })
-  }),
-  setChart: PropTypes.any,
-  sign: PropTypes.any
-}
+    coin: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+        symbol: PropTypes.string.isRequired,
+        total_volume: PropTypes.number.isRequired,
+        current_price: PropTypes.number.isRequired,
+        price_change_percentage_24h: PropTypes.number.isRequired,
+    }).isRequired,
+    sign: PropTypes.string.isRequired,
+    setChart: PropTypes.func.isRequired,
+};
