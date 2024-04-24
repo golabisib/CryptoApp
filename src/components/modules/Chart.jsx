@@ -7,7 +7,8 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, X
 import { convertData } from "../../helpers/convertData";
 
 
-function Chart({chart, setChart}) {
+function Chart({chart, setChart, sign}) {
+    console.log(chart)
     const [type, setType] =useState("prices")
     console.log(convertData(chart, type));
 
@@ -17,8 +18,35 @@ function Chart({chart, setChart}) {
             X
         </span>
         <div className={styles.chart}>
+
+            <div className={styles.name}>
+                <img src={chart.coin.image} alt="" />
+                <p>{chart.coin.name}</p>
+            </div>
+
             <div className={styles.graph}>
                 <ChartComponent data={convertData(chart, type)} type={type} />
+            </div>
+
+            <div className={styles.types}>
+                <button>Prices</button>
+                <button>Market Caps</button>
+                <button>Total Volumes</button>
+            </div>
+
+            <div className={styles.details}>
+                <div>
+                    <p>Prices:</p>
+                    <span>{sign}{chart.coin.current_price}</span>
+                </div>
+                <div>
+                    <p>ATH:</p>
+                    <span>{sign}{chart.coin.ath}</span>
+                </div>
+                <div>
+                    <p>Market Cap:</p>
+                    <span>{sign}{chart.coin.market_cap}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -26,8 +54,17 @@ function Chart({chart, setChart}) {
 }
 
 Chart.propTypes = {
-  chart: PropTypes.any,
-  setChart: PropTypes.any
+  chart: PropTypes.shape({
+    coin: PropTypes.shape({
+      current_price: PropTypes.any,
+      image: PropTypes.any,
+      name: PropTypes.any,
+      ath: PropTypes.any,
+      market_cap:PropTypes.any
+    })
+  }),
+  setChart: PropTypes.func,
+  sign: PropTypes.any
 }
 
 export default Chart
@@ -40,7 +77,7 @@ const ChartComponent = ({data, type}) => {
                         height={400}
                         data={data}
                     >
-                        <Line type="monotone" dataKey={type} stroke="blue" strokeWidth="2px" />
+                        <Line type="monotone" dataKey={type} stroke="#BACD92" strokeWidth="2px" />
                         <CartesianGrid stroke="#404042"/>
                         <YAxis dataKey={type} domain={["auto","auto"]} />
                         <XAxis dataKey="date" hide />
@@ -49,4 +86,9 @@ const ChartComponent = ({data, type}) => {
                     </LineChart>
                 </ResponsiveContainer>
     );
+}
+
+ChartComponent.propTypes = {
+  data: PropTypes.any,
+  type: PropTypes.any
 }
