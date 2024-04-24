@@ -1,8 +1,12 @@
 import PropTypes from "prop-types"
 import styles from "./Chart.module.css"
 
+import { convertData } from "../../helpers/convertData";
+import { useState } from "react";
+
 function Chart({chart, setChart}) {
-    console.log(chart);
+    const [type, setType] =useState("market_cap")
+    console.log(convertData(chart, type));
   return (
     <div className={styles.container}>
         <span className={styles.cross} onClick={() => setChart((chart) => !chart)}>
