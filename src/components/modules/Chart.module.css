@@ -33,9 +33,14 @@
     margin-top: 50px;
     background-color: #181c19e6;
     border: 2px solid #404241;
-    border-radius: 15px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    -ms-border-radius: 15px;
-    -o-border-radius: 15px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.graph {
+    width: 760px;
+    height: 300px;
 }
